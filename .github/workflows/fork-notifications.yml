@@ -1,0 +1,16 @@
+name: Fork Notification
+
+on:
+  fork:
+    types:
+      - created
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Fork Notification
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"text": "Repository forked by: ${{ github.event.forkee.owner.login }}. Forked repo: ${{ github.event.forkee.html_url }}"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
